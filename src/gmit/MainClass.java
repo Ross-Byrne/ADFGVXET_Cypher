@@ -48,6 +48,51 @@ public class MainClass {
 		cypherMap.put('\'', new String("FE"));
 		cypherMap.put('}', new String("FT"));
 		
+		cypherMap.put('x', new String("GA"));
+		cypherMap.put('k', new String("GD"));
+		cypherMap.put('r', new String("GF"));
+		cypherMap.put('3', new String("GG"));
+		cypherMap.put('c', new String("GV"));
+		cypherMap.put('v', new String("GX"));
+		cypherMap.put('.', new String("GE"));
+		cypherMap.put('{', new String("GT"));
+		
+		cypherMap.put('s', new String("VA"));
+		cypherMap.put('5', new String("VD"));
+		cypherMap.put('z', new String("VF"));
+		cypherMap.put('w', new String("VG"));
+		cypherMap.put('7', new String("VV"));
+		cypherMap.put('b', new String("VX"));
+		cypherMap.put(',', new String("VE"));
+		cypherMap.put('&', new String("VT"));
+		
+		cypherMap.put('j', new String("XA"));
+		cypherMap.put('9', new String("XD"));
+		cypherMap.put('u', new String("XF"));
+		cypherMap.put('t', new String("XG"));
+		cypherMap.put('i', new String("XV"));
+		cypherMap.put('8', new String("XX"));
+		cypherMap.put(':', new String("XE"));
+		cypherMap.put('=', new String("XT"));
+		
+		cypherMap.put('*', new String("EA"));
+		cypherMap.put('-', new String("ED"));
+		cypherMap.put('!', new String("EF"));
+		cypherMap.put('?', new String("EG"));
+		cypherMap.put('(', new String("EV"));
+		cypherMap.put(')', new String("EX"));
+		cypherMap.put(';', new String("EE"));
+		cypherMap.put('%', new String("ET"));
+		
+		cypherMap.put('[', new String("TA"));
+		cypherMap.put(']', new String("TD"));
+		cypherMap.put('/', new String("TF"));
+		cypherMap.put('\\', new String("TG"));
+		cypherMap.put('+', new String("TV"));
+		cypherMap.put('#', new String("TX"));
+		cypherMap.put('@', new String("TE"));
+		cypherMap.put('_', new String("TT"));
+		
 		
 		System.out.println("The ADFGVXET Encryption");
 		
@@ -61,5 +106,8 @@ public class MainClass {
 		} // while
 		
 		System.out.println("\nProgram Ended\n");
+		
+		// close Scanner
+		console.close();
 	} // main
 } // Class
