@@ -16,94 +16,179 @@ public class MainClass {
 		Scanner console = new Scanner(System.in);
 		
 		// hash map
-		HashMap<Character, String> cypherMap = new HashMap<Character, String>();
+		HashMap<Character, String> encryptMap = new HashMap<Character, String>();
+		HashMap<String, Character> decryptMap = new HashMap<String, Character>();
 		
 		char key = ' ';
+		String key1 = " ";
 		
-		// add to hashmap
-		cypherMap.put('p', new String("AA"));
-		cypherMap.put('h', new String("AD"));
-		cypherMap.put('0', new String("AF"));
-		cypherMap.put('q', new String("AG"));
-		cypherMap.put('g', new String("AV"));
-		cypherMap.put('6', new String("AX"));
-		cypherMap.put(' ', new String("AE"));
-		cypherMap.put('>', new String("AT"));
+		// encryption hashmap values
+		encryptMap.put('p', new String("AA"));
+		encryptMap.put('h', new String("AD"));
+		encryptMap.put('0', new String("AF"));
+		encryptMap.put('q', new String("AG"));
+		encryptMap.put('g', new String("AV"));
+		encryptMap.put('6', new String("AX"));
+		encryptMap.put(' ', new String("AE"));
+		encryptMap.put('>', new String("AT"));
 		
-		cypherMap.put('4', new String("DA"));
-		cypherMap.put('m', new String("DD"));
-		cypherMap.put('e', new String("DF"));
-		cypherMap.put('a', new String("DG"));
-		cypherMap.put('1', new String("DV"));
-		cypherMap.put('y', new String("DX"));
-		cypherMap.put('"', new String("DE"));
-		cypherMap.put('<', new String("DT"));
+		encryptMap.put('4', new String("DA"));
+		encryptMap.put('m', new String("DD"));
+		encryptMap.put('e', new String("DF"));
+		encryptMap.put('a', new String("DG"));
+		encryptMap.put('1', new String("DV"));
+		encryptMap.put('y', new String("DX"));
+		encryptMap.put('"', new String("DE"));
+		encryptMap.put('<', new String("DT"));
 		
-		cypherMap.put('l', new String("FA"));
-		cypherMap.put('2', new String("FD"));
-		cypherMap.put('n', new String("FF"));
-		cypherMap.put('o', new String("FG"));
-		cypherMap.put('f', new String("FV"));
-		cypherMap.put('d', new String("FX"));
-		cypherMap.put('\'', new String("FE"));
-		cypherMap.put('}', new String("FT"));
+		encryptMap.put('l', new String("FA"));
+		encryptMap.put('2', new String("FD"));
+		encryptMap.put('n', new String("FF"));
+		encryptMap.put('o', new String("FG"));
+		encryptMap.put('f', new String("FV"));
+		encryptMap.put('d', new String("FX"));
+		encryptMap.put('\'', new String("FE"));
+		encryptMap.put('}', new String("FT"));
 		
-		cypherMap.put('x', new String("GA"));
-		cypherMap.put('k', new String("GD"));
-		cypherMap.put('r', new String("GF"));
-		cypherMap.put('3', new String("GG"));
-		cypherMap.put('c', new String("GV"));
-		cypherMap.put('v', new String("GX"));
-		cypherMap.put('.', new String("GE"));
-		cypherMap.put('{', new String("GT"));
+		encryptMap.put('x', new String("GA"));
+		encryptMap.put('k', new String("GD"));
+		encryptMap.put('r', new String("GF"));
+		encryptMap.put('3', new String("GG"));
+		encryptMap.put('c', new String("GV"));
+		encryptMap.put('v', new String("GX"));
+		encryptMap.put('.', new String("GE"));
+		encryptMap.put('{', new String("GT"));
 		
-		cypherMap.put('s', new String("VA"));
-		cypherMap.put('5', new String("VD"));
-		cypherMap.put('z', new String("VF"));
-		cypherMap.put('w', new String("VG"));
-		cypherMap.put('7', new String("VV"));
-		cypherMap.put('b', new String("VX"));
-		cypherMap.put(',', new String("VE"));
-		cypherMap.put('&', new String("VT"));
+		encryptMap.put('s', new String("VA"));
+		encryptMap.put('5', new String("VD"));
+		encryptMap.put('z', new String("VF"));
+		encryptMap.put('w', new String("VG"));
+		encryptMap.put('7', new String("VV"));
+		encryptMap.put('b', new String("VX"));
+		encryptMap.put(',', new String("VE"));
+		encryptMap.put('&', new String("VT"));
 		
-		cypherMap.put('j', new String("XA"));
-		cypherMap.put('9', new String("XD"));
-		cypherMap.put('u', new String("XF"));
-		cypherMap.put('t', new String("XG"));
-		cypherMap.put('i', new String("XV"));
-		cypherMap.put('8', new String("XX"));
-		cypherMap.put(':', new String("XE"));
-		cypherMap.put('=', new String("XT"));
+		encryptMap.put('j', new String("XA"));
+		encryptMap.put('9', new String("XD"));
+		encryptMap.put('u', new String("XF"));
+		encryptMap.put('t', new String("XG"));
+		encryptMap.put('i', new String("XV"));
+		encryptMap.put('8', new String("XX"));
+		encryptMap.put(':', new String("XE"));
+		encryptMap.put('=', new String("XT"));
 		
-		cypherMap.put('*', new String("EA"));
-		cypherMap.put('-', new String("ED"));
-		cypherMap.put('!', new String("EF"));
-		cypherMap.put('?', new String("EG"));
-		cypherMap.put('(', new String("EV"));
-		cypherMap.put(')', new String("EX"));
-		cypherMap.put(';', new String("EE"));
-		cypherMap.put('%', new String("ET"));
+		encryptMap.put('*', new String("EA"));
+		encryptMap.put('-', new String("ED"));
+		encryptMap.put('!', new String("EF"));
+		encryptMap.put('?', new String("EG"));
+		encryptMap.put('(', new String("EV"));
+		encryptMap.put(')', new String("EX"));
+		encryptMap.put(';', new String("EE"));
+		encryptMap.put('%', new String("ET"));
 		
-		cypherMap.put('[', new String("TA"));
-		cypherMap.put(']', new String("TD"));
-		cypherMap.put('/', new String("TF"));
-		cypherMap.put('\\', new String("TG"));
-		cypherMap.put('+', new String("TV"));
-		cypherMap.put('#', new String("TX"));
-		cypherMap.put('@', new String("TE"));
-		cypherMap.put('_', new String("TT"));
+		encryptMap.put('[', new String("TA"));
+		encryptMap.put(']', new String("TD"));
+		encryptMap.put('/', new String("TF"));
+		encryptMap.put('\\', new String("TG"));
+		encryptMap.put('+', new String("TV"));
+		encryptMap.put('#', new String("TX"));
+		encryptMap.put('@', new String("TE"));
+		encryptMap.put('_', new String("TT"));
+		
+		// decryption hashmap
+		decryptMap.put("AA", new Character('p'));
+		decryptMap.put("AD", new Character('h'));
+		decryptMap.put("AF", new Character('0'));
+		decryptMap.put("AG", new Character('q'));
+		decryptMap.put("AV", new Character('g'));
+		decryptMap.put("AX", new Character('6'));
+		decryptMap.put("AE", new Character(' '));
+		decryptMap.put("AT", new Character('>'));
+		
+		decryptMap.put("DA", new Character('4'));
+		decryptMap.put("DD", new Character('m'));
+		decryptMap.put("DF", new Character('e'));
+		decryptMap.put("DG", new Character('a'));
+		decryptMap.put("DV", new Character('1'));
+		decryptMap.put("DX", new Character('y'));
+		decryptMap.put("DE", new Character('"'));
+		decryptMap.put("DT", new Character('<'));
+		
+		decryptMap.put("FA", new Character('l'));
+		decryptMap.put("FD", new Character('2'));
+		decryptMap.put("FF", new Character('n'));
+		decryptMap.put("FG", new Character('o'));
+		decryptMap.put("FV", new Character('f'));
+		decryptMap.put("FX", new Character('d'));
+		decryptMap.put("FE", new Character('\''));
+		decryptMap.put("FT", new Character('}'));
+		
+		decryptMap.put("GA", new Character('x'));
+		decryptMap.put("GD", new Character('k'));
+		decryptMap.put("GF", new Character('r'));
+		decryptMap.put("GG", new Character('3'));
+		decryptMap.put("GV", new Character('c'));
+		decryptMap.put("GX", new Character('v'));
+		decryptMap.put("GE", new Character('.'));
+		decryptMap.put("GT", new Character('{'));
+		
+		decryptMap.put("VA", new Character('s'));
+		decryptMap.put("VD", new Character('5'));
+		decryptMap.put("VF", new Character('z'));
+		decryptMap.put("VG", new Character('w'));
+		decryptMap.put("VV", new Character('7'));
+		decryptMap.put("VX", new Character('b'));
+		decryptMap.put("VE", new Character(','));
+		decryptMap.put("VT", new Character('&'));
+		
+		decryptMap.put("XA", new Character('j'));
+		decryptMap.put("XD", new Character('9'));
+		decryptMap.put("XF", new Character('u'));
+		decryptMap.put("XG", new Character('t'));
+		decryptMap.put("XV", new Character('i'));
+		decryptMap.put("XX", new Character('8'));
+		decryptMap.put("XE", new Character(':'));
+		decryptMap.put("XT", new Character('='));
+		
+		decryptMap.put("EA", new Character('*'));
+		decryptMap.put("ED", new Character('-'));
+		decryptMap.put("EF", new Character('!'));
+		decryptMap.put("EG", new Character('?'));
+		decryptMap.put("EV", new Character('('));
+		decryptMap.put("EX", new Character(')'));
+		decryptMap.put("EE", new Character(';'));
+		decryptMap.put("ET", new Character('%'));
+		
+		decryptMap.put("TA", new Character('['));
+		decryptMap.put("TD", new Character(']'));
+		decryptMap.put("TF", new Character('/'));
+		decryptMap.put("TG", new Character('\\'));
+		decryptMap.put("TV", new Character('+'));
+		decryptMap.put("TX", new Character('#'));
+		decryptMap.put("TE", new Character('@'));
+		decryptMap.put("TT", new Character('_'));
 		
 		
 		System.out.println("The ADFGVXET Encryption");
 		
-		while(key != '/')
+		/*while(key != '/')
 		{
 			System.out.print("Enter A Letter to be encryped ('/' to exit): ");
 			key = console.next().charAt(0);
 			key = Character.toLowerCase(key);
 			
-			System.out.println(cypherMap.get(key));
-		} // while
+			System.out.println(encryptMap.get(key));
+		} // while*/
+		
+		do
+		{
+			System.out.print("Enter two letters to be decryped ('/' to exit): ");
+			key1 = console.next();
+			System.out.println(key1);
+			key1 = key1.toUpperCase();
+			System.out.println(key1);
+			System.out.println(decryptMap.get(key1));
+		}while(!key1.equals("/")); // while
 		
 		System.out.println("\nProgram Ended\n");
 		
