@@ -7,22 +7,38 @@
 
 package gmit;
 
+import java.io.*;
 import java.util.*;
 
 public class MainClass {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		// objects
 		Scanner console = new Scanner(System.in);
 		
 		Cypher cypher = new Cypher();
 		
+		// Checks if file exists, creates it if it doesn't
+		File file = new File("text.txt");
+		if(!file.exists()) {
+			file.createNewFile();
+		} // if
+		
 		// variables
 		char key = ' ';
 		String key1 = " ";
 		
 		System.out.println("The ADFGVXET Encryption");
+		
+		try {
+			cypher.readFile();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+		
+			e.printStackTrace();
+		}
 		
 		while(key != '/')
 		{
@@ -37,8 +53,9 @@ public class MainClass {
 		{
 			System.out.print("Enter two letters to be decryped ('/' to exit): ");
 			key1 = console.next();
-			key1 = key1.toUpperCase();
 			
+			key1 = key1.toUpperCase();
+	
 			System.out.println(cypher.getDecryption(key1));
 		}while(!key1.equals("/")); // while
 		
