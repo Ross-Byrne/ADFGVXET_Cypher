@@ -19,16 +19,15 @@ public class MainClass {
 		
 		Cypher cypher = new Cypher();
 		
-		// Checks if file exists, creates it if it doesn't
-		File file = new File("text.txt");
-		if(!file.exists()) {
-			file.createNewFile();
-		} // if
 		
-		// variables
-		char key = ' ';
-		String key1 = " ";
-		int menuChoice, endProgram = 0;;
+		
+		// Variables
+		int menuChoice, endProgram;
+		String fileName;
+		
+		// Initialise
+		menuChoice = endProgram = 0;
+		fileName = "";
 		
 		System.out.println("The ADFGVXET Encryption");
 		
@@ -61,16 +60,40 @@ public class MainClass {
 			switch(menuChoice)
 			{
 			case 1: // encrypt file
+				System.out.println("Make sure your text file is in the same directory as 'src'.");
+				
+				System.out.print("Enter name of File (include .txt): ");
+				fileName = console.next();
+				
+				// Checks if file exists, creates it if it doesn't
+				File file1 = new File(fileName);
+				if(!file1.exists()) {
+					file1.createNewFile();
+				} // if
+				
 				// read text file
-				cypher.readFile();
+				cypher.encryptFile(fileName);
 				break;
 			case 2: // decrypt file
+				System.out.println("Make sure your text file is in the same directory as 'src'.");
+				
+				System.out.print("Enter name of File (include .txt): ");
+				fileName = console.next();
+				
+				// Checks if file exists, creates it if it doesn't
+				File file2 = new File(fileName);
+				if(!file2.exists()) {
+					file2.createNewFile();
+				} // if
+				
+				cypher.decryptFile(fileName);
 				break;
 			case 3: // exit
 				endProgram = 99;
 				break;
 			} // switch
 		} // while
+		
 		System.out.println("\n . . . Program Ended . . .\n");
 		
 		// close Scanner

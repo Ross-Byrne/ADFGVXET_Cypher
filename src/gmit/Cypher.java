@@ -176,14 +176,14 @@ public class Cypher {
 		return decryptMap.get(key);
 	} // getDecryption()
 	
-	public void readFile() throws FileNotFoundException, IOException
+	public void encryptFile(String fileName) throws FileNotFoundException, IOException
 	{
 		StringBuilder encryptedString = new StringBuilder();
 		char c = ' ';
 		int i;
 		
 		// read text from file, line by line and encrypt it as it goes
-		try(BufferedReader br = new BufferedReader(new FileReader("text.txt"))) {
+		try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 		    for(String line; (line = br.readLine()) != null; ) {
 		       
 		    	System.out.println("Unencrypted Text: " + line);
@@ -207,37 +207,52 @@ public class Cypher {
 		
 		// print out encrypted text
 		System.out.println("Encrypted Text: " + encryptedString);
-		
+	} // encryptFile()
+	
+	public void decryptFile(String fileName)
+	{
 		StringBuilder decryptedString = new StringBuilder();
 		StringBuilder tempString = new StringBuilder();
-		char[] c1 = new char[encryptedString.length()];
+		char c1 = ' ';
+		char c2 = ' ';
+		int i;
 		
-		// loop through encrypted string and separate string
-		// into char array
-		for (i = 0; i < encryptedString.length(); i++){
-			// split string into characters
-		    c1[i] = encryptedString.charAt(i);  
-		   
-		    c1[i] = Character.toUpperCase(c1[i]); // make sure all upper case
-		} // for
-		
-		// loop through char array and add characters in pairs to a string
-		// decrypted string and add to decrypted string
-		for(i = 0; i < c1.length; i += 2)
+		// read text from file, line by line and decrypt it as it goes
+		try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+		    for(String line; (line = br.readLine()) != null; ) {
+		    	
+		    	System.out.println("Encrypted Text: " + line);
+		    	
+		    	// loop through characters in string and add characters in pairs 
+		    	// to a  temp string. decrypt temp string and add decrypted character
+		    	// to main decrypted string
+		    	for (i = 0; i < line.length(); i += 2){
+		    		// get characters in pairs from string "line"
+				    c1 = line.charAt(i);  
+				    c2 = line.charAt(i+1);
+				    
+				    c1 = Character.toUpperCase(c1); // convert to upper case
+				    c2 = Character.toUpperCase(c2);
+				    
+				    tempString.append(c1); // get chars in pairs for string
+					tempString.append(c2);
+					
+				    // Decrypt each pair of characters and build a string
+				    decryptedString.append(getDecryption(tempString.toString()));
+				    
+					// empty string builder temp
+					tempString.setLength(0);
+		    	} // for
+		    } // for
+		} 
+		catch(Exception e)
 		{
-			tempString.append(c1[i]); // get chars in pairs for string
-			tempString.append(c1[i+1]);
-			
-			// decrypt string to get letter
-			decryptedString.append(getDecryption(tempString.toString()));
-	
-			// empty string builder
-			tempString.setLength(0);
-		}
+			System.out.println("Could Not load text from file!");
+		} // try catch
+		
 		// print out decrypted string
 		System.out.println("Decrypted Text: " + decryptedString.toString());
-		
-	} // readFile()
+	} // decryptFile()
 
 	/*
 	 *  To encrypt whole string (after reading in) use this sample code
