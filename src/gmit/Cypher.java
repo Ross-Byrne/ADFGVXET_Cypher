@@ -199,7 +199,11 @@ public class Cypher {
 				    encryptedString.append(getEncryption(c));
 				} // for
 		    } // for
-		} // try
+		} 
+		catch(Exception e)
+		{
+			System.out.println("Could Not load text from file!");
+		} // try catch
 		
 		// print out encrypted text
 		System.out.println("Encrypted Text: " + encryptedString);

@@ -28,38 +28,50 @@ public class MainClass {
 		// variables
 		char key = ' ';
 		String key1 = " ";
+		int menuChoice, endProgram = 0;;
 		
 		System.out.println("The ADFGVXET Encryption");
 		
-		try {
-			cypher.readFile();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-		
-			e.printStackTrace();
-		}
-		
-		while(key != '/')
+		while(endProgram != 99)
 		{
-			System.out.print("Enter A Letter to be encryped ('/' to exit): ");
-			key = console.next().charAt(0);
-			key = Character.toLowerCase(key);
+			// to make sure int in correct range is entered
+			do
+			{
+				System.out.println("\nWould You Like To Encrypt or Decrypt a Text File?\n");
+				System.out.println("1.) Encrpt Text File.");
+				System.out.println("2.) Decrypt Text File.");
+				System.out.println("3.) Exit.\n");
+				
+				System.out.print("Enter Option: ");
+				
+				while(!console.hasNextInt()) // in case an int isn't entered
+				{
+					System.out.println("\nWould You Like To Encrypt or Decrypt a Text File?\n");
+					System.out.println("1.) Encrpt Text File.");
+					System.out.println("2.) Decrypt Text File.");
+					System.out.println("3.) Exit.\n");
+					
+					System.out.print("Enter Option: ");
+					console.next(); // to advance Scanner past input
+				} // while
+				
+				menuChoice = console.nextInt();
+			}while(menuChoice < 1 || menuChoice > 3);
 			
-			System.out.println(cypher.getEncryption(key));
+			switch(menuChoice)
+			{
+			case 1: // encrypt file
+				// read text file
+				cypher.readFile();
+				break;
+			case 2: // decrypt file
+				break;
+			case 3: // exit
+				endProgram = 99;
+				break;
+			} // switch
 		} // while
-		
-		do
-		{
-			System.out.print("Enter two letters to be decryped ('/' to exit): ");
-			key1 = console.next();
-			
-			key1 = key1.toUpperCase();
-	
-			System.out.println(cypher.getDecryption(key1));
-		}while(!key1.equals("/")); // while
-		
-		System.out.println("\nProgram Ended\n");
+		System.out.println("\n . . . Program Ended . . .\n");
 		
 		// close Scanner
 		console.close();
