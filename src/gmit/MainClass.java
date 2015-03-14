@@ -65,10 +65,11 @@ public class MainClass {
 				System.out.print("Enter name of File (include .txt): ");
 				fileName = console.next();
 				
-				// Checks if file exists, creates it if it doesn't
+				// Checks if file exists
 				File file1 = new File(fileName);
 				if(!file1.exists()) {
-					file1.createNewFile();
+					System.out.println("File: " + fileName + " Does not exists! Connot Encrypt!");
+					break;
 				} // if
 				
 				// read text file
@@ -80,10 +81,11 @@ public class MainClass {
 				System.out.print("Enter name of File (include .txt): ");
 				fileName = console.next();
 				
-				// Checks if file exists, creates it if it doesn't
+				// Checks if file exists
 				File file2 = new File(fileName);
 				if(!file2.exists()) {
-					file2.createNewFile();
+					System.out.println("File: " + fileName + " Does not exists! Connot Decrypt!");
+					break;
 				} // if
 				
 				cypher.decryptFile(fileName);

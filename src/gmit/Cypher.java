@@ -176,7 +176,7 @@ public class Cypher {
 		return decryptMap.get(key);
 	} // getDecryption()
 	
-	public void encryptFile(String fileName) throws FileNotFoundException, IOException
+	public void encryptFile(String fileName)
 	{
 		StringBuilder encryptedString = new StringBuilder();
 		char c = ' ';
@@ -185,8 +185,6 @@ public class Cypher {
 		// read text from file, line by line and encrypt it as it goes
 		try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 		    for(String line; (line = br.readLine()) != null; ) {
-		       
-		    	System.out.println("Unencrypted Text: " + line);
 		    	
 		    	// encrypt line of text
 		    	for (i = 0; i < line.length(); i++){
@@ -205,8 +203,20 @@ public class Cypher {
 			System.out.println("Could Not load text from file!");
 		} // try catch
 		
-		// print out encrypted text
-		System.out.println("Encrypted Text: " + encryptedString);
+		try
+		{
+			// print encrypted text to file
+			PrintWriter writer = new PrintWriter("Encrypted.txt");
+			
+			// write text to file
+			writer.print(encryptedString);
+			
+			writer.close();
+		} 
+		catch (Exception e)
+		{
+			System.out.println("Error, Could Not Write Encrypted Text To File");
+		} // try catch
 	} // encryptFile()
 	
 	public void decryptFile(String fileName)
@@ -220,8 +230,6 @@ public class Cypher {
 		// read text from file, line by line and decrypt it as it goes
 		try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 		    for(String line; (line = br.readLine()) != null; ) {
-		    	
-		    	System.out.println("Encrypted Text: " + line);
 		    	
 		    	// loop through characters in string and add characters in pairs 
 		    	// to a  temp string. decrypt temp string and add decrypted character
@@ -249,9 +257,20 @@ public class Cypher {
 		{
 			System.out.println("Could Not load text from file!");
 		} // try catch
-		
-		// print out decrypted string
-		System.out.println("Decrypted Text: " + decryptedString.toString());
+	
+		try {
+			// print encrypted text to file
+			PrintWriter writer = new PrintWriter("Decrypted.txt");
+			
+			// write text to file
+			writer.print(decryptedString);
+			
+			writer.close();
+		}	
+		catch (Exception e)
+		{
+			System.out.println("Error, Could Not Write Decrypted Text To File.");
+		} // try catch
 	} // decryptFile()
 
 	/*
