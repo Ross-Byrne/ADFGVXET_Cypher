@@ -23,11 +23,11 @@ public class MainClass {
 		
 		// Variables
 		int menuChoice, endProgram;
-		String fileName;
+		String fileName, keyWord;
 		
 		// Initialise
 		menuChoice = endProgram = 0;
-		fileName = "";
+		fileName = keyWord = "";
 		
 		System.out.println("The ADFGVXET Encryption");
 		
@@ -60,6 +60,9 @@ public class MainClass {
 			switch(menuChoice)
 			{
 			case 1: // encrypt file
+				System.out.print("Please Enter KeyWord For Encryption: ");
+				keyWord = console.next();
+				
 				System.out.println("Make sure your text file is in the same directory as 'src'.");
 				
 				System.out.print("Enter name of File (include .txt): ");
@@ -72,10 +75,13 @@ public class MainClass {
 					break;
 				} // if
 				
-				// read text file
-				cypher.encryptFile(fileName);
+				// encrypt file
+				cypher.encryptFile(fileName, keyWord);
 				break;
 			case 2: // decrypt file
+				System.out.print("Please Enter KeyWord For Decryption: ");
+				keyWord = console.next();
+				
 				System.out.println("Make sure your text file is in the same directory as 'src'.");
 				
 				System.out.print("Enter name of File (include .txt): ");
@@ -88,7 +94,8 @@ public class MainClass {
 					break;
 				} // if
 				
-				cypher.decryptFile(fileName);
+				// decrypt file
+				cypher.decryptFile(fileName, keyWord);
 				break;
 			case 3: // exit
 				endProgram = 99;
