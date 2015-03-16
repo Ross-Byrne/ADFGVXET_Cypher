@@ -75,8 +75,14 @@ public class MainClass {
 					break;
 				} // if
 				
-				// encrypt file
+				double start = System.currentTimeMillis();
+
+				// encrypt text
 				cypher.encryptFile(fileName, keyWord);
+
+				double searchTime = ((System.currentTimeMillis() - start)/1000);
+				
+				System.out.println("That ran in: " + searchTime + " seconds");
 				break;
 			case 2: // decrypt file
 				System.out.print("Please Enter KeyWord For Decryption: ");
@@ -94,8 +100,14 @@ public class MainClass {
 					break;
 				} // if
 				
+				start = System.currentTimeMillis();
+
 				// decrypt file
 				cypher.decryptFile(fileName, keyWord);
+
+				searchTime = ((System.currentTimeMillis() - start)/1000);
+				
+				System.out.println("That ran in: " + searchTime + " seconds");
 				break;
 			case 3: // exit
 				endProgram = 99;

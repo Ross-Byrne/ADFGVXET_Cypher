@@ -215,68 +215,59 @@ public class Cypher {
 		
 		int numOfRows = 0;
 		
-		if(encryptedString.length() % keyWord.length() != 0)
-		{
+		if(encryptedString.length() % keyWord.length() != 0){
 			numOfRows = (encryptedString.length() / keyWord.length()) +1;
 		}
-		else
-		{
+		else{
 			numOfRows = encryptedString.length() / keyWord.length();
-		}
+		} // if
 		
-		for(i = 0; i < numOfRows; i++)
-		{
+		// creates num of rows needed
+		for(i = 0; i < numOfRows; i++){
 			text.add(new ArrayList<Character>());
-		}
+		} // for
 		
 		count = 0;
 		i = 0;
 		for(count = 0; count < encryptedString.length();) {
-			
-			// add a row
-			//text.add(new ArrayList<Character>());
 			for(j = 0; j < keyWord.length(); j++)
 			{
 				if(count == encryptedString.length()){
 					break;
 				}
 				text.get(i).add(encryptedString.charAt(count));
-				System.out.print(text.get(i).get(j));
+				//System.out.print(text.get(i).get(j));
 				
 	    		count++; // count number of characters processed
 	    	} // for
-			System.out.println();
+			//System.out.println();
 			i++;
 		} // for
 		
 		try
 		{
 			// print encrypted text to file
-			PrintWriter writer = new PrintWriter((new BufferedWriter(new FileWriter("Test.txt"))));
+			PrintWriter writer = new PrintWriter((new BufferedWriter(new FileWriter("Encrypted.txt"))));
 			
 			count = 0;
 			i = 0;
 			for(count = 0; count < encryptedString.length();) {
-				
 				for(j = 0; j < numOfRows; j++)
 				{
 					if(count == encryptedString.length()){
 						break;
-					}
+					} // if
 					
-					if(i == text.get(j).size())
-					{
+					if(i == text.get(j).size()){
 						// do nothing
 					}
-					else
-					{
+					else{
 						writer.write(text.get(j).get(i));
-						System.out.print(text.get(j).get(i));
+						//System.out.print(text.get(j).get(i));
 						count++; // count number of characters processed
-					}
-		    		
+					} // if
 		    	} // for
-				System.out.println();
+				//System.out.println();
 				i++;
 			} // for
 			
@@ -287,8 +278,7 @@ public class Cypher {
 			System.out.println("Error..");
 		}
 	
-		try
-		{
+		/*try{
 			// print encrypted text to file
 			PrintWriter writer = new PrintWriter("Encrypted.txt");
 			
@@ -300,7 +290,7 @@ public class Cypher {
 		catch (Exception e)
 		{
 			System.out.println("Error, Could Not Write Encrypted Text To File");
-		} // try catch
+		} // try catch*/
 	} // encryptFile()
 	
 	public void decryptFile(String fileName, String keyWord)
@@ -318,20 +308,21 @@ public class Cypher {
 		// read text from file, line by line and decrypt it as it goes
 		try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 		    for(String line; (line = br.readLine()) != null; ) {
+		    	encryptedString.append(line);
 		    	
 		    	// loop through characters in string and add characters in pairs 
 		    	// to a  temp string. decrypt temp string and add decrypted character
 		    	// to main decrypted string
-		    	for (i = 0; i < line.length(); i += 2){
-		    		// get characters in pairs from string "line"
+		    /*	for (i = 0; i < line.length(); i++){
+		    		
 				    c1 = line.charAt(i);  
-				    c2 = line.charAt(i+1);
+				  //  c2 = line.charAt(i+1);
 				    
 				    c1 = Character.toUpperCase(c1); // convert to upper case
-				    c2 = Character.toUpperCase(c2);
+				 //   c2 = Character.toUpperCase(c2);
 				    
-				    tempString.append(c1); // get chars in pairs for string
-					tempString.append(c2);
+				//.append(c1); // get chars in pairs for string
+				//	tempString.append(c2);
 					
 				  /*  // Decrypt each pair of characters and build a string
 				    decryptedString.append(getDecryption(tempString.toString()));
@@ -339,10 +330,10 @@ public class Cypher {
 					// empty string builder temp
 					tempString.setLength(0);*/
 		    		
-		    		encryptedString.append(tempString);
+		    		//encryptedString.append(line);
 		    		
-		    		tempString.setLength(0);
-		    	} // for
+		    		//tempString.setLength(0);
+		    	//} // for*/
 		    } // for
 		} 
 		catch(Exception e)
@@ -355,85 +346,98 @@ public class Cypher {
 		
 		remainder = encryptedString.length() % keyWord.length();
 		
-		if(encryptedString.length() % keyWord.length() != 0)
-		{
+		if(encryptedString.length() % keyWord.length() != 0){
 			numOfRows = (encryptedString.length() / keyWord.length()) +1;
 		}
-		else
-		{
+		else{
 			numOfRows = encryptedString.length() / keyWord.length();
-		}
+		} // if
 		
-		for(i = 0; i < numOfRows; i++)
-		{
+		// create num of rows needed
+		for(i = 0; i < numOfRows; i++){
 			text.add(new ArrayList<Character>());
-		}
+		} // for
 		
 		count = 0;
 		i = 0;
+		// reverse keyword diffusion
 		for(count = 0; count < encryptedString.length();) {
-			
 			for(j = 0; j < numOfRows; j++)
 			{
 				if(count == encryptedString.length()){
 					break;
-				}
+				} // if
 				
-				if(!(j < numOfRows-1) && !(i < remainder) && remainder != 0)
-				{
+				// if remainder is not 0, this means an extra row was added that 
+				// didnt get completely filled. the remainder is the number of elements 
+				// in the last row. when reading column by column dont read anything in 
+				// if last element in column is part of the unfilled row.
+				if(!(j < numOfRows-1) && !(i < remainder) && remainder != 0){
 					// do nothing
 				}
-				else
-				{
-	
+				else{
 					text.get(j).add(encryptedString.charAt(count));
-					System.out.print(text.get(j).get(i));
+					//System.out.print(text.get(j).get(i));
 					count++; // count number of characters processed	
-				}
-				
-	    		
+				} // if
 	    	} // for
-			System.out.println();
+			//System.out.println();
 			i++;
 		} // for
 		
-		/*count = 0;
-		i = 0;
-		for(count = 0; count < encryptedString.length();) {
-			
-			for(j = 0; j < keyWord.length(); j++)
-			{
-				if(count == encryptedString.length()){
-					break;
-				}
-				text.get(i).add(encryptedString.charAt(count));
-				
-	    		count++; // count number of characters processed
-	    	} // for
-			i++;
-		} // for*/
+		// empty string
+		encryptedString.setLength(0);
 		
-		try
+		// add diffused characters to string
+		for(i = 0; i < text.size(); i++) {
+			for(j = 0; j < text.get(i).size(); j++)
+			{
+				encryptedString.append(text.get(i).get(j));
+	    	} // for
+		} // for
+		
+		tempString.setLength(0);
+		// decrypt text
+		
+		// loop through characters in string and add characters in pairs 
+    	// to a  temp string. decrypt temp string and add decrypted character
+    	// to main decrypted string
+    	for (i = 0; i < encryptedString.length(); i += 2){
+    		// get characters in pairs from string "line"
+		    c1 = encryptedString.charAt(i);  
+		    c2 = encryptedString.charAt(i+1);
+		    
+		    c1 = Character.toUpperCase(c1); // convert to upper case
+		    c2 = Character.toUpperCase(c2);
+		    
+		    tempString.append(c1); // get chars in pairs for string
+			tempString.append(c2);
+			
+		    // Decrypt each pair of characters and build a string
+		    decryptedString.append(getDecryption(tempString.toString()));
+		    
+			// empty string builder temp
+			tempString.setLength(0);
+    	} // for
+		
+	/*	try
 		{
 			// print encrypted text to file
 			PrintWriter writer = new PrintWriter((new BufferedWriter(new FileWriter("Test1.txt"))));
 		
 			count = 0;
 			i = 0;
-			for(count = 0; count < encryptedString.length();) {
-				
-				for(j = 0; j < keyWord.length(); j++)
-				{
+			for(i = 0; i < text.size(); i++) {
+				for(j = 0; j < text.get(i).size(); j++){
 					if(count == encryptedString.length()){
 						break;
 					}
 					writer.write(text.get(i).get(j));
-					System.out.print(text.get(i).get(j));
+					//System.out.print(text.get(i).get(j));
 					
 		    		count++; // count number of characters processed
 		    	} // for
-				System.out.println();
-				i++;
+				//System.out.println();
 			} // for
 			
 			writer.close();
@@ -441,10 +445,10 @@ public class Cypher {
 		catch (Exception e1)
 		{
 			System.out.println("Error..");
-		}
+		}*/
 	
 		try {
-			// print encrypted text to file
+			// print Decrypted text to file
 			PrintWriter writer = new PrintWriter("Decrypted.txt");
 			
 			// write text to file
@@ -457,24 +461,5 @@ public class Cypher {
 			System.out.println("Error, Could Not Write Decrypted Text To File.");
 		} // try catch
 	} // decryptFile()
-
-	/*
-	 *  To encrypt whole string (after reading in) use this sample code
-	 *  
-	 *  String s = "...stuff...";
-
-		for (int i = 0; i < s.length(); i++){
-		    char c = s.charAt(i);        
-		    
-		     *  encrypt character
-		     * 
-		     * use key word here
-		     * to jumble order of encrypted text
-		     * 
-		     * use string builder here to
-		     * rebuild encripted text as string
-		     *  
-		}
-	 */
 	
 } // Class
