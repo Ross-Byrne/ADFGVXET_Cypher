@@ -185,12 +185,13 @@ public class Cypher {
 		char[] keyWordChars = keyWord.toCharArray(); 
 		char[] orderedKeyWordChars = keyWord.toCharArray();
 		int[] newColOrder = new int [keyWord.length()];
+		int[] oldColOrder = new int [keyWord.length()];
 		
 		// sort keyword to be in alphabetical order
 		Arrays.sort(orderedKeyWordChars); 
-		//String orderedKeyWord = new String(orderedKeyWordChars);
+		String orderedKeyWord = new String(orderedKeyWordChars);
 		
-		//System.out.println(orderedKeyWord);
+		System.out.println(orderedKeyWord);
 		
 		// after keyword is ordered alphabetically
 		// the new order in which the columns are printed out
@@ -200,14 +201,15 @@ public class Cypher {
 				if(orderedKeyWordChars[i] == keyWordChars[j]){
 					keyWordChars[j] = ' ';
 					newColOrder[i] = j; // new index of letter
+					oldColOrder[j] = i;
 					break;
 				} // if
 			} // for
 		} // for
+	
+		keyWordChars = keyWord.toCharArray();
 		
-		//keyWordChars = keyWord.toCharArray();
-		
-		/*for(i = 0; i < keyWord.length(); i++){
+		for(i = 0; i < keyWord.length(); i++){
 			System.out.println("Keyword unordered index: " + i + " " + keyWordChars[i]);
 		}
 		
@@ -216,8 +218,11 @@ public class Cypher {
 		}
 		
 		for(i = 0; i < keyWord.length(); i++){
-			System.out.println("Keyword ordered col index: " + i + " " + newColOrder[i]);
-		}*/
+			System.out.println("Keyword newColOrder index: " + i + " " + newColOrder[i]);
+		}
+		for(i = 0; i < keyWord.length(); i++){
+			System.out.println("Keyword oldColOrder index: " + i + " " + oldColOrder[i]);
+		}
 		
 		// 2dim array list to hold text from file
 		List<List<Character>> text = new ArrayList<List<Character>>();
@@ -321,6 +326,7 @@ public class Cypher {
 		char[] keyWordChars = keyWord.toCharArray(); 
 		char[] orderedKeyWordChars = keyWord.toCharArray();
 		int[] newColOrder = new int [keyWord.length()];
+		int[] oldColOrder = new int [keyWord.length()];
 		
 		// sort keyword to be in alphabetical order
 		Arrays.sort(orderedKeyWordChars); 
@@ -333,6 +339,7 @@ public class Cypher {
 				if(orderedKeyWordChars[i] == keyWordChars[j]){
 					keyWordChars[j] = ' ';
 					newColOrder[i] = j; // new index of letter
+					oldColOrder[j] = i;
 					break;
 				} // if
 			} // for
@@ -385,7 +392,7 @@ public class Cypher {
 				// in the last row. when reading column by column dont read anything in 
 				// if last element in column is part of the unfilled row.
 				
-				if(!(j < numOfRows-1) && !(col < remainder) && remainder != 0){
+				if(!(j < numOfRows-1) && !(newColOrder[i] < remainder) && remainder != 0){
 					// do nothing
 					//System.out.println("\nNothing newColORder: " + col + "remainder: " + remainder + "\n");
 					//System.out.print("Count: " + count +" I:"+i);
@@ -400,30 +407,39 @@ public class Cypher {
 				} // if
 	    	} // for
 			System.out.println();
-			
 			i++;
 		} // for
+		
+		System.out.println();
 		
 		//empty string
 		encryptedString.setLength(0);
 		
+		System.out.println("text.size(): " +  text.size() + " text.get(15).size(): " + text.get(15).size());
+	
 		// add diffused characters to string
 		for(i = 0; i < text.size(); i++) {
 			for(j = 0; j < text.get(i).size(); j++)
 			{
-				if(text.get(i).get(j) == ' '){
+				if(oldColOrder[j] == text.get(i).size()){
+					break;
+				}
+				
+				if(text.get(i).get(oldColOrder[j]) == ' '){
 					// it's a black spot, do nothing
-					System.out.print(text.get(i).get(j));
+					System.out.print(text.get(i).get(oldColOrder[j]));
+				//	System.out.println(oldColOrder[j]);
 					//System.out.print(" i: " + i + " j: " + j + " ");
 				}
 				else{
-					System.out.print(text.get(i).get(j));
+					System.out.print(text.get(i).get(oldColOrder[j]));
 					//System.out.print(" i: " + i + " j: " + j + " ");
-					encryptedString.append(text.get(i).get(j));
+					encryptedString.append(text.get(i).get(oldColOrder[j]));
+				//	System.out.println(oldColOrder[j]);
 				}
 	    	} // for
 			System.out.println();
-		} // for
+		} // for*
 		
 		try {
 			// print Decrypted text to file
