@@ -12,8 +12,8 @@ public class Cypher {
 	// member variables
 	
 	// hash maps
-	private Map<Character, String> encryptMap = new HashMap<Character, String>(64);
-	private Map<String, Character> decryptMap = new HashMap<String, Character>(64);
+	private Map<Character, String> encryptMap = new HashMap<Character, String>(70);
+	private Map<String, Character> decryptMap = new HashMap<String, Character>(70);
 	
 	// constructor
 	Cypher()
@@ -182,6 +182,43 @@ public class Cypher {
 		char c = ' ';
 		int i, j, count;
 		
+		char[] keyWordChars = keyWord.toCharArray(); 
+		char[] orderedKeyWordChars = keyWord.toCharArray();
+		int[] newColOrder = new int [keyWord.length()];
+		
+		// sort keyword to be in alphabetical order
+		Arrays.sort(orderedKeyWordChars); 
+		//String orderedKeyWord = new String(orderedKeyWordChars);
+		
+		//System.out.println(orderedKeyWord);
+		
+		// after keyword is ordered alphabetically
+		// the new order in which the columns are printed out
+		// are stored in newColOder
+		for(i = 0; i < keyWord.length(); i++){
+			for(j = 0; j < keyWord.length(); j++){
+				if(orderedKeyWordChars[i] == keyWordChars[j]){
+					keyWordChars[j] = ' ';
+					newColOrder[i] = j; // new index of letter
+					break;
+				} // if
+			} // for
+		} // for
+		
+		//keyWordChars = keyWord.toCharArray();
+		
+		/*for(i = 0; i < keyWord.length(); i++){
+			System.out.println("Keyword unordered index: " + i + " " + keyWordChars[i]);
+		}
+		
+		for(i = 0; i < keyWord.length(); i++){
+			System.out.println("Keyword ordered index: " + i + " " + orderedKeyWordChars[i]);
+		}
+		
+		for(i = 0; i < keyWord.length(); i++){
+			System.out.println("Keyword ordered col index: " + i + " " + newColOrder[i]);
+		}*/
+		
 		// 2dim array list to hold text from file
 		List<List<Character>> text = new ArrayList<List<Character>>();
 	
@@ -236,61 +273,40 @@ public class Cypher {
 					break;
 				}
 				text.get(i).add(encryptedString.charAt(count));
-				//System.out.print(text.get(i).get(j));
+				System.out.print(text.get(i).get(j));
 				
 	    		count++; // count number of characters processed
 	    	} // for
-			//System.out.println();
+			System.out.println();
 			i++;
 		} // for
 		
-		try
-		{
+		try{
 			// print encrypted text to file
 			PrintWriter writer = new PrintWriter((new BufferedWriter(new FileWriter("Encrypted.txt"))));
 			
-			count = 0;
-			i = 0;
-			for(count = 0; count < encryptedString.length();) {
+			for(i = 0; i < keyWord.length(); i++) {
 				for(j = 0; j < numOfRows; j++)
-				{
-					if(count == encryptedString.length()){
-						break;
-					} // if
-					
-					if(i == text.get(j).size()){
+				{	
+					// if the row is shorter then other rows
+					// dont print anything
+					if(!(newColOrder[i] < text.get(j).size())){
 						// do nothing
 					}
 					else{
-						writer.write(text.get(j).get(i));
-						//System.out.print(text.get(j).get(i));
-						count++; // count number of characters processed
+						writer.write(text.get(j).get(newColOrder[i]));
+						System.out.print(text.get(j).get(newColOrder[i]));
 					} // if
 		    	} // for
-				//System.out.println();
-				i++;
+				System.out.println();
 			} // for
 			
 			writer.close();
 		} 
 		catch (Exception e1)
 		{
-			System.out.println("Error..");
-		}
-	
-		/*try{
-			// print encrypted text to file
-			PrintWriter writer = new PrintWriter("Encrypted.txt");
-			
-			// write text to file
-			writer.print(encryptedString);
-			
-			writer.close();
-		} 
-		catch (Exception e)
-		{
 			System.out.println("Error, Could Not Write Encrypted Text To File");
-		} // try catch*/
+		}// try catch
 	} // encryptFile()
 	
 	public void decryptFile(String fileName, String keyWord)
@@ -302,6 +318,26 @@ public class Cypher {
 		char c2 = ' ';
 		int i, count, j;
 		
+		char[] keyWordChars = keyWord.toCharArray(); 
+		char[] orderedKeyWordChars = keyWord.toCharArray();
+		int[] newColOrder = new int [keyWord.length()];
+		
+		// sort keyword to be in alphabetical order
+		Arrays.sort(orderedKeyWordChars); 
+		
+		// after keyword is ordered alphabetically
+		// the new order in which the columns are printed out
+		// are stored in newColOder
+		for(i = 0; i < keyWord.length(); i++){
+			for(j = 0; j < keyWord.length(); j++){
+				if(orderedKeyWordChars[i] == keyWordChars[j]){
+					keyWordChars[j] = ' ';
+					newColOrder[i] = j; // new index of letter
+					break;
+				} // if
+			} // for
+		} // for
+		
 		// 2dim array list to hold text from file
 		List<List<Character>> text = new ArrayList<List<Character>>();
 			
@@ -309,31 +345,6 @@ public class Cypher {
 		try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 		    for(String line; (line = br.readLine()) != null; ) {
 		    	encryptedString.append(line);
-		    	
-		    	// loop through characters in string and add characters in pairs 
-		    	// to a  temp string. decrypt temp string and add decrypted character
-		    	// to main decrypted string
-		    /*	for (i = 0; i < line.length(); i++){
-		    		
-				    c1 = line.charAt(i);  
-				  //  c2 = line.charAt(i+1);
-				    
-				    c1 = Character.toUpperCase(c1); // convert to upper case
-				 //   c2 = Character.toUpperCase(c2);
-				    
-				//.append(c1); // get chars in pairs for string
-				//	tempString.append(c2);
-					
-				  /*  // Decrypt each pair of characters and build a string
-				    decryptedString.append(getDecryption(tempString.toString()));
-				    
-					// empty string builder temp
-					tempString.setLength(0);*/
-		    		
-		    		//encryptedString.append(line);
-		    		
-		    		//tempString.setLength(0);
-		    	//} // for*/
 		    } // for
 		} 
 		catch(Exception e)
@@ -360,10 +371,11 @@ public class Cypher {
 		
 		count = 0;
 		i = 0;
-		// reverse keyword diffusion
+		int col = 0;
 		for(count = 0; count < encryptedString.length();) {
+			col = newColOrder[i];
 			for(j = 0; j < numOfRows; j++)
-			{
+			{	
 				if(count == encryptedString.length()){
 					break;
 				} // if
@@ -372,87 +384,75 @@ public class Cypher {
 				// didnt get completely filled. the remainder is the number of elements 
 				// in the last row. when reading column by column dont read anything in 
 				// if last element in column is part of the unfilled row.
-				if(!(j < numOfRows-1) && !(i < remainder) && remainder != 0){
+				
+				if(!(j < numOfRows-1) && !(col < remainder) && remainder != 0){
 					// do nothing
+					//System.out.println("\nNothing newColORder: " + col + "remainder: " + remainder + "\n");
+					//System.out.print("Count: " + count +" I:"+i);
+					text.get(j).add(' ');
 				}
 				else{
 					text.get(j).add(encryptedString.charAt(count));
-					//System.out.print(text.get(j).get(i));
-					count++; // count number of characters processed	
+					System.out.print(text.get(j).get(i));
+				//	System.out.print("Count: " + count +" I:"+i);
+					//System.out.println("j: " + j + " newColOrder[i]: " + newColOrder[i] + " remainder: " + remainder);
+					count++; // count number of characters processed
 				} // if
 	    	} // for
-			//System.out.println();
+			System.out.println();
+			
 			i++;
 		} // for
 		
-		// empty string
+		//empty string
 		encryptedString.setLength(0);
 		
 		// add diffused characters to string
 		for(i = 0; i < text.size(); i++) {
 			for(j = 0; j < text.get(i).size(); j++)
 			{
-				encryptedString.append(text.get(i).get(j));
+				if(text.get(i).get(j) == ' '){
+					// it's a black spot, do nothing
+					System.out.print(text.get(i).get(j));
+					//System.out.print(" i: " + i + " j: " + j + " ");
+				}
+				else{
+					System.out.print(text.get(i).get(j));
+					//System.out.print(" i: " + i + " j: " + j + " ");
+					encryptedString.append(text.get(i).get(j));
+				}
 	    	} // for
+			System.out.println();
 		} // for
 		
-		tempString.setLength(0);
-		// decrypt text
-		
-		// loop through characters in string and add characters in pairs 
-    	// to a  temp string. decrypt temp string and add decrypted character
-    	// to main decrypted string
-    	for (i = 0; i < encryptedString.length(); i += 2){
-    		// get characters in pairs from string "line"
-		    c1 = encryptedString.charAt(i);  
-		    c2 = encryptedString.charAt(i+1);
-		    
-		    c1 = Character.toUpperCase(c1); // convert to upper case
-		    c2 = Character.toUpperCase(c2);
-		    
-		    tempString.append(c1); // get chars in pairs for string
-			tempString.append(c2);
-			
-		    // Decrypt each pair of characters and build a string
-		    decryptedString.append(getDecryption(tempString.toString()));
-		    
-			// empty string builder temp
-			tempString.setLength(0);
-    	} // for
-		
-	/*	try
-		{
-			// print encrypted text to file
-			PrintWriter writer = new PrintWriter((new BufferedWriter(new FileWriter("Test1.txt"))));
-		
-			count = 0;
-			i = 0;
-			for(i = 0; i < text.size(); i++) {
-				for(j = 0; j < text.get(i).size(); j++){
-					if(count == encryptedString.length()){
-						break;
-					}
-					writer.write(text.get(i).get(j));
-					//System.out.print(text.get(i).get(j));
-					
-		    		count++; // count number of characters processed
-		    	} // for
-				//System.out.println();
-			} // for
-			
-			writer.close();
-		} 
-		catch (Exception e1)
-		{
-			System.out.println("Error..");
-		}*/
-	
 		try {
 			// print Decrypted text to file
-			PrintWriter writer = new PrintWriter("Decrypted.txt");
+			PrintWriter writer = new PrintWriter((new BufferedWriter(new FileWriter("Decrypted.txt"))));
+			
+			// loop through characters in string and add characters in pairs 
+	    	// to a  temp string. decrypt temp string and add decrypted character
+	    	// to main decrypted string
+	    	for (i = 0; i < encryptedString.length(); i += 2){
+	    		// get characters in pairs from string "line"
+			    c1 = encryptedString.charAt(i);  
+			    c2 = encryptedString.charAt(i+1);
+			    
+			    c1 = Character.toUpperCase(c1); // convert to upper case
+			    c2 = Character.toUpperCase(c2);
+			    
+			    tempString.append(c1); // get chars in pairs for string
+				tempString.append(c2);
+				
+			    // Decrypt each pair of characters and print string
+			  //  decryptedString.append(getDecryption(tempString.toString()));
+				writer.write(getDecryption(tempString.toString()));
+			    
+				// empty string builder temp
+				tempString.setLength(0);
+	    	} // for
 			
 			// write text to file
-			writer.print(decryptedString);
+			//writer.write(decryptedString.toString());
 			
 			writer.close();
 		}	
