@@ -162,36 +162,44 @@ public class Cypher {
 		decryptMap.put("TV", new Character('+'));
 		decryptMap.put("TX", new Character('#'));
 		decryptMap.put("TE", new Character('@'));
-		decryptMap.put("TT", new Character('_'));
-				
+		decryptMap.put("TT", new Character('_'));		
 	}
 	
+	// returns the two letter cypher for a character
 	public String getEncryption(char key)
 	{
 		return encryptMap.get(key);
 	} // getEncryption()
 	
+	// returns uncyphered character from two letter string
 	public Character getDecryption(String key)
 	{
 		return decryptMap.get(key);
 	} // getDecryption()
 	
+	/* Method for encrypting a text file
+	 * The text file is read in one line at a time
+	 * each line is cyphered with hashmap and added to stringbuilder
+	 * chars in string are added to an arraylist of arraylists
+	 * columns of 2 dim arraylist are printed to "Encrypted.txt"
+	 * in alphabetical order depending on what keyword is. 
+	 */
 	public void encryptFile(String fileName, String keyWord)
 	{
 		StringBuilder encryptedString = new StringBuilder();
 		char c = ' ';
 		int i, j, count;
+		int numOfRows = 0;
 		
 		char[] keyWordChars = keyWord.toCharArray(); 
 		char[] orderedKeyWordChars = keyWord.toCharArray();
 		int[] newColOrder = new int [keyWord.length()];
-		int[] oldColOrder = new int [keyWord.length()];
 		
 		// sort keyword to be in alphabetical order
 		Arrays.sort(orderedKeyWordChars); 
-		String orderedKeyWord = new String(orderedKeyWordChars);
+		//String orderedKeyWord = new String(orderedKeyWordChars);
 		
-		System.out.println(orderedKeyWord);
+		//System.out.println(orderedKeyWord);
 		
 		// after keyword is ordered alphabetically
 		// the new order in which the columns are printed out
@@ -201,13 +209,12 @@ public class Cypher {
 				if(orderedKeyWordChars[i] == keyWordChars[j]){
 					keyWordChars[j] = ' ';
 					newColOrder[i] = j; // new index of letter
-					oldColOrder[j] = i;
 					break;
 				} // if
 			} // for
 		} // for
 	
-		keyWordChars = keyWord.toCharArray();
+		/*keyWordChars = keyWord.toCharArray();
 		
 		for(i = 0; i < keyWord.length(); i++){
 			System.out.println("Keyword unordered index: " + i + " " + keyWordChars[i]);
@@ -222,7 +229,7 @@ public class Cypher {
 		}
 		for(i = 0; i < keyWord.length(); i++){
 			System.out.println("Keyword oldColOrder index: " + i + " " + oldColOrder[i]);
-		}
+		}*/
 		
 		// 2dim array list to hold text from file
 		List<List<Character>> text = new ArrayList<List<Character>>();
@@ -255,8 +262,8 @@ public class Cypher {
 			System.out.println("Could Not load text from file!");
 		} // try catch
 		
-		int numOfRows = 0;
-		
+		// to find out how many rows are needed in 2dim ararylist
+		// if there is a remainder - add an extra row.
 		if(encryptedString.length() % keyWord.length() != 0){
 			numOfRows = (encryptedString.length() / keyWord.length()) +1;
 		}
@@ -269,6 +276,9 @@ public class Cypher {
 			text.add(new ArrayList<Character>());
 		} // for
 		
+		// add the characters of the encrypted string to
+		// 2 Dim arraylist. The rows of the arraylist are the
+		// length of the keyword
 		count = 0;
 		i = 0;
 		for(count = 0; count < encryptedString.length();) {
@@ -278,11 +288,11 @@ public class Cypher {
 					break;
 				}
 				text.get(i).add(encryptedString.charAt(count));
-				System.out.print(text.get(i).get(j));
+				//System.out.print(text.get(i).get(j));
 				
 	    		count++; // count number of characters processed
 	    	} // for
-			System.out.println();
+			//System.out.println();
 			i++;
 		} // for
 		
@@ -290,6 +300,8 @@ public class Cypher {
 			// print encrypted text to file
 			PrintWriter writer = new PrintWriter((new BufferedWriter(new FileWriter("Encrypted.txt"))));
 			
+			// print 2 dim arraylist to text file column by column
+			// in the order of the keyword being in alphabetical order
 			for(i = 0; i < keyWord.length(); i++) {
 				for(j = 0; j < numOfRows; j++)
 				{	
@@ -300,10 +312,10 @@ public class Cypher {
 					}
 					else{
 						writer.write(text.get(j).get(newColOrder[i]));
-						System.out.print(text.get(j).get(newColOrder[i]));
+					//	System.out.print(text.get(j).get(newColOrder[i]));
 					} // if
 		    	} // for
-				System.out.println();
+				//System.out.println();
 			} // for
 			
 			writer.close();
@@ -317,11 +329,12 @@ public class Cypher {
 	public void decryptFile(String fileName, String keyWord)
 	{
 		StringBuilder encryptedString = new StringBuilder();
-		StringBuilder decryptedString = new StringBuilder();
 		StringBuilder tempString = new StringBuilder();
 		char c1 = ' ';
 		char c2 = ' ';
 		int i, count, j;
+		int numOfRows = 0;
+		int remainder = 0;
 		
 		char[] keyWordChars = keyWord.toCharArray(); 
 		char[] orderedKeyWordChars = keyWord.toCharArray();
@@ -334,6 +347,7 @@ public class Cypher {
 		// after keyword is ordered alphabetically
 		// the new order in which the columns are printed out
 		// are stored in newColOder
+		// the old order is stored in oldColOrder
 		for(i = 0; i < keyWord.length(); i++){
 			for(j = 0; j < keyWord.length(); j++){
 				if(orderedKeyWordChars[i] == keyWordChars[j]){
@@ -348,7 +362,7 @@ public class Cypher {
 		// 2dim array list to hold text from file
 		List<List<Character>> text = new ArrayList<List<Character>>();
 			
-		// read text from file, line by line and decrypt it as it goes
+		// read text from file, line by line
 		try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 		    for(String line; (line = br.readLine()) != null; ) {
 		    	encryptedString.append(line);
@@ -359,11 +373,12 @@ public class Cypher {
 			System.out.println("Could Not load text from file!");
 		} // try catch
 		
-		int numOfRows = 0;
-		int remainder = 0;
-		
+		// the reaminder is the number of characters in the last row
+		// of the 2 dim arraylist.
 		remainder = encryptedString.length() % keyWord.length();
 		
+		// to find out how many rows are needed in 2dim ararylist
+		// if there is a remainder - add an extra row.
 		if(encryptedString.length() % keyWord.length() != 0){
 			numOfRows = (encryptedString.length() / keyWord.length()) +1;
 		}
@@ -376,13 +391,14 @@ public class Cypher {
 			text.add(new ArrayList<Character>());
 		} // for
 		
+		// add chars from encrypted text file to the 2 dim arraylist.
+		// the chars are added column by column - the same way they where
+		// printed to the text file. This adds the chars to the right columns
+		// using newColOrder[]
 		count = 0;
 		i = 0;
-		int col = 0;
 		for(count = 0; count < encryptedString.length();) {
-			col = newColOrder[i];
-			for(j = 0; j < numOfRows; j++)
-			{	
+			for(j = 0; j < numOfRows; j++){	
 				if(count == encryptedString.length()){
 					break;
 				} // if
@@ -394,30 +410,25 @@ public class Cypher {
 				
 				if(!(j < numOfRows-1) && !(newColOrder[i] < remainder) && remainder != 0){
 					// do nothing
-					//System.out.println("\nNothing newColORder: " + col + "remainder: " + remainder + "\n");
-					//System.out.print("Count: " + count +" I:"+i);
+					// add in blank space to arraylist
 					text.get(j).add(' ');
 				}
 				else{
 					text.get(j).add(encryptedString.charAt(count));
-					System.out.print(text.get(j).get(i));
-				//	System.out.print("Count: " + count +" I:"+i);
-					//System.out.println("j: " + j + " newColOrder[i]: " + newColOrder[i] + " remainder: " + remainder);
+				 //	System.out.print(text.get(j).get(i));
 					count++; // count number of characters processed
 				} // if
 	    	} // for
-			System.out.println();
+		//	System.out.println();
 			i++;
 		} // for
 		
-		System.out.println();
-		
-		//empty string
+		//empty string to reuse it
 		encryptedString.setLength(0);
-		
-		System.out.println("text.size(): " +  text.size() + " text.get(15).size(): " + text.get(15).size());
 	
-		// add diffused characters to string
+		// add characters to string row by row, using 
+		// the correct order of columns - oldColOrder
+		// has the index of the original order of keyword
 		for(i = 0; i < text.size(); i++) {
 			for(j = 0; j < text.get(i).size(); j++)
 			{
@@ -427,27 +438,22 @@ public class Cypher {
 				
 				if(text.get(i).get(oldColOrder[j]) == ' '){
 					// it's a black spot, do nothing
-					System.out.print(text.get(i).get(oldColOrder[j]));
-				//	System.out.println(oldColOrder[j]);
-					//System.out.print(" i: " + i + " j: " + j + " ");
 				}
 				else{
-					System.out.print(text.get(i).get(oldColOrder[j]));
-					//System.out.print(" i: " + i + " j: " + j + " ");
+					//System.out.print(text.get(i).get(oldColOrder[j]));
 					encryptedString.append(text.get(i).get(oldColOrder[j]));
-				//	System.out.println(oldColOrder[j]);
 				}
 	    	} // for
-			System.out.println();
-		} // for*
+			//System.out.println();
+		} // for
 		
 		try {
 			// print Decrypted text to file
 			PrintWriter writer = new PrintWriter((new BufferedWriter(new FileWriter("Decrypted.txt"))));
 			
 			// loop through characters in string and add characters in pairs 
-	    	// to a  temp string. decrypt temp string and add decrypted character
-	    	// to main decrypted string
+	    	// to a  temp string. decrypt temp string and add decrypted char
+			// to text File "Decrypted.txt"
 	    	for (i = 0; i < encryptedString.length(); i += 2){
 	    		// get characters in pairs from string "line"
 			    c1 = encryptedString.charAt(i);  
@@ -459,16 +465,12 @@ public class Cypher {
 			    tempString.append(c1); // get chars in pairs for string
 				tempString.append(c2);
 				
-			    // Decrypt each pair of characters and print string
-			  //  decryptedString.append(getDecryption(tempString.toString()));
+			    // Decrypt each pair of characters and write to file
 				writer.write(getDecryption(tempString.toString()));
 			    
 				// empty string builder temp
 				tempString.setLength(0);
 	    	} // for
-			
-			// write text to file
-			//writer.write(decryptedString.toString());
 			
 			writer.close();
 		}	
