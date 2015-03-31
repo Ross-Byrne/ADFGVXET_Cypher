@@ -19,8 +19,6 @@ public class MainClass {
 		
 		Cypher cypher = new Cypher();
 		
-		
-		
 		// Variables
 		int menuChoice, endProgram;
 		String fileName, keyWord;
@@ -83,6 +81,7 @@ public class MainClass {
 				double searchTime = ((System.currentTimeMillis() - start)/1000);
 				
 				System.out.println("That ran in: " + searchTime + " seconds");
+				System.out.println("\nFile Encrypted And Saved To 'Encrypted.txt'.");
 				break;
 			case 2: // decrypt file
 				System.out.print("Please Enter KeyWord For Decryption: ");
@@ -108,6 +107,7 @@ public class MainClass {
 				searchTime = ((System.currentTimeMillis() - start)/1000);
 				
 				System.out.println("That ran in: " + searchTime + " seconds");
+				System.out.println("\nFile Decrypted And Saved To 'Decrypted.txt'.");
 				break;
 			case 3: // exit
 				endProgram = 99;

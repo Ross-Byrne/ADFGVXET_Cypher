@@ -204,6 +204,7 @@ public class Cypher {
 		// after keyword is ordered alphabetically
 		// the new order in which the columns are printed out
 		// are stored in newColOder
+		// Big O Notation = O(N*2)
 		for(i = 0; i < keyWord.length(); i++){
 			for(j = 0; j < keyWord.length(); j++){
 				if(orderedKeyWordChars[i] == keyWordChars[j]){
@@ -235,6 +236,7 @@ public class Cypher {
 		List<List<Character>> text = new ArrayList<List<Character>>();
 	
 		// read text from file, line by line and encrypt it as it goes
+		// Big O Notation = O(N*2)
 		try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 		    for(String line; (line = br.readLine()) != null; ) {
 		  
@@ -264,6 +266,7 @@ public class Cypher {
 		
 		// to find out how many rows are needed in 2dim ararylist
 		// if there is a remainder - add an extra row.
+		// Big O Notation = O(1)
 		if(encryptedString.length() % keyWord.length() != 0){
 			numOfRows = (encryptedString.length() / keyWord.length()) +1;
 		}
@@ -272,6 +275,7 @@ public class Cypher {
 		} // if
 		
 		// creates num of rows needed
+		// Big O Notation = O(N)
 		for(i = 0; i < numOfRows; i++){
 			text.add(new ArrayList<Character>());
 		} // for
@@ -279,6 +283,7 @@ public class Cypher {
 		// add the characters of the encrypted string to
 		// 2 Dim arraylist. The rows of the arraylist are the
 		// length of the keyword
+		// Big O Notation = O(N*2)
 		count = 0;
 		i = 0;
 		for(count = 0; count < encryptedString.length();) {
@@ -302,6 +307,7 @@ public class Cypher {
 			
 			// print 2 dim arraylist to text file column by column
 			// in the order of the keyword being in alphabetical order
+			// Big O Notation = O(N*2)
 			for(i = 0; i < keyWord.length(); i++) {
 				for(j = 0; j < numOfRows; j++)
 				{	
@@ -326,6 +332,9 @@ public class Cypher {
 		}// try catch
 	} // encryptFile()
 	
+	// reads encrypted text in,
+	// reverses the column shift
+	// decrypt the text and prints to "Decrypted.txt".
 	public void decryptFile(String fileName, String keyWord)
 	{
 		StringBuilder encryptedString = new StringBuilder();
@@ -348,6 +357,7 @@ public class Cypher {
 		// the new order in which the columns are printed out
 		// are stored in newColOder
 		// the old order is stored in oldColOrder
+		// Big O Notation = O(N*2)
 		for(i = 0; i < keyWord.length(); i++){
 			for(j = 0; j < keyWord.length(); j++){
 				if(orderedKeyWordChars[i] == keyWordChars[j]){
@@ -363,6 +373,7 @@ public class Cypher {
 		List<List<Character>> text = new ArrayList<List<Character>>();
 			
 		// read text from file, line by line
+		// Big O Notation = O(N)
 		try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 		    for(String line; (line = br.readLine()) != null; ) {
 		    	encryptedString.append(line);
@@ -379,6 +390,7 @@ public class Cypher {
 		
 		// to find out how many rows are needed in 2dim ararylist
 		// if there is a remainder - add an extra row.
+		// Big O Notation = O(1)
 		if(encryptedString.length() % keyWord.length() != 0){
 			numOfRows = (encryptedString.length() / keyWord.length()) +1;
 		}
@@ -387,6 +399,7 @@ public class Cypher {
 		} // if
 		
 		// create num of rows needed
+		// Big O Notation = O(N)
 		for(i = 0; i < numOfRows; i++){
 			text.add(new ArrayList<Character>());
 		} // for
@@ -395,6 +408,7 @@ public class Cypher {
 		// the chars are added column by column - the same way they where
 		// printed to the text file. This adds the chars to the right columns
 		// using newColOrder[]
+		// Big O Notation = O(N*2)
 		count = 0;
 		i = 0;
 		for(count = 0; count < encryptedString.length();) {
@@ -429,6 +443,7 @@ public class Cypher {
 		// add characters to string row by row, using 
 		// the correct order of columns - oldColOrder
 		// has the index of the original order of keyword
+		// Big O Notation = O(N*2)
 		for(i = 0; i < text.size(); i++) {
 			for(j = 0; j < text.get(i).size(); j++)
 			{
@@ -454,6 +469,7 @@ public class Cypher {
 			// loop through characters in string and add characters in pairs 
 	    	// to a  temp string. decrypt temp string and add decrypted char
 			// to text File "Decrypted.txt"
+			// Big O Notation = O(N)
 	    	for (i = 0; i < encryptedString.length(); i += 2){
 	    		// get characters in pairs from string "line"
 			    c1 = encryptedString.charAt(i);  
