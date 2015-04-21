@@ -27,8 +27,3 @@ Run the program and type 2, as instructed, to decrypted your file.
 Enter the keyword you used to encrypt the file.
 Then, type the name of the text file you wish to decrypt, including the .txt Eg "Encrypted.txt"
 Your decrypted text will be saved to a text file called "Decrypted.txt". 
-
-To Run Jar File.
-
-Can Run Encoder.jar by typing "java -jar encoder.jar" in command prompt.
-if running .jar file, make sure the text file you use is in the same directory as the jar file.
