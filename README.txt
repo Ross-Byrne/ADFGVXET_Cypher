@@ -1,7 +1,7 @@
-Ross Byrne - G00310619
+Eclipse Luna Project, programmed in java 1.8. Second Year College project.
 
 This is my take on the ADFGVX Cypher. Instead it is the "ADFGVXET Cypher". 
-Two extra letters where added to include spacesand other special characters.
+Two extra letters where added to include spaces and other special characters.
 
  *** My testing ***
 
@@ -31,4 +31,4 @@ Your decrypted text will be saved to a text file called "Decrypted.txt".
 To Run Jar File.
 
 Can Run Encoder.jar by typing "java -jar encoder.jar" in command prompt.
-if running .jar file, make sure the text file you use id in same directory as jar file.
+if running .jar file, make sure the text file you use is in the same directory as the jar file.
