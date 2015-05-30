@@ -1,6 +1,6 @@
-Eclipse Luna Project, programmed in java 1.8. Second Year College project.
+Eclipse Luna Project, programmed in java 1.8. Second Year College project - Grade: 97%.
 
-This is my take on the ADFGVX Cypher. Instead it is the "ADFGVXET Cypher". 
+This is my take on the German WW1 ADFGVX Cypher. Instead it is the "ADFGVXET Cypher". 
 Two extra letters where added to include spaces and other special characters.
 
  *** My testing ***
